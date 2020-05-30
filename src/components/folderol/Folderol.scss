@@ -1,0 +1,14 @@
+.folderol {
+  position: relative;
+  height: 5em;
+
+  &__feature {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    background-color: red;
+  }
+}
