@@ -1,8 +1,17 @@
 .app {
-  padding: 3em;
-  margin: 0 2em;
+  margin: 1em auto;
   position: relative;
+  max-width: 30em;
   
-  background-color: gray;
-  color: white;
+  &__main {
+    position: relative;
+
+    background-color: #202020;
+    color: white;
+    font: var(--font--main);
+  }
+
+  &__folderol {
+    // height: 50em;
+  }
 }

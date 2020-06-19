@@ -1,6 +1,10 @@
 .folderol {
-  position: relative;
-  height: 5em;
+  position: absolute;
+  bottom: 0;
+  height: 20%;
+  width: 100%;
+
+  overflow: hidden;
 
   &__feature {
     position: absolute;
@@ -8,7 +12,14 @@
     left: 0;
     height: 100%;
     width: 100%;
+  }
 
-    background-color: red;
+  &__svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__element {
+    box-shadow: -3px -3px 10px rgba(0, 0, 0, 0.3);
   }
 }

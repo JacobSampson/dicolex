@@ -3,16 +3,22 @@ import React from 'react';
 import './App.scss';
 import Footer from './footer/Footer';
 import Folderol from './folderol/Folderol';
+import Form from './form/Form';
+import RepoOverview from './repo-overview/RepoOverview';
 
+const CLASS = 'app';
 function App() {
   return (
-    <>
-      <main className='app'>
-        <div>Test</div>
-        <Folderol />
+    <div className={CLASS}>
+      <RepoOverview></RepoOverview>
+      <main className={CLASS + '__main'}>
+        <Form />
+        <div className={`${CLASS}__folderol`}>
+          <Folderol />
+        </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 
