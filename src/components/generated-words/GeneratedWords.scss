@@ -1,0 +1,28 @@
+.generated-words {
+  position: relative;
+  top: 12.5em;
+
+  font-family: var(--font--main);
+
+  &__word {
+    padding: 2em;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+
+    background-color: var(--col-dark--primary);
+  }
+
+  &__combo {
+
+  }
+  
+  &__language {
+    opacity: 0.5;
+    padding-left: 1em;
+  }
+
+  &__original {
+
+  }
+}

@@ -1,0 +1,172 @@
+@import 'src/resources/scss/components/base-input';
+
+.form {
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+
+  font-family: var(--font--main);
+
+  &__addition {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 1em 1em 1em 0;
+    align-self: center;
+
+    background-color: transparent;
+    font-size: inherit;
+    color: white;
+    border: none;
+    border-bottom: 2px solid var(--col-dark--tertiary);
+  }
+
+  &__selects {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 3em 0;
+  }
+
+  &__select {
+    @include base-input;
+
+    padding: 1em;
+    width: 100%;
+
+    text-align-last: center;
+    background-color: var(--col-dark--primary);
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+
+    &--from {
+    }
+
+    &--to {
+    }
+  }
+
+  &__arrow {
+    margin: 0 1em;
+
+
+  }
+
+  &__option {
+    padding: 1em 0;
+
+    transition: 0.15s ease-in-out;
+    
+    &:hover {
+      cursor: pointer;
+      text-align-last: center;
+    }
+  }
+
+  &__errors {
+
+    font-size: smalll;
+    color: var(--col--error);
+  }
+
+  &__error {
+
+  }
+
+  &__button {
+    @include base-input;
+
+    margin: 0 0.25rem;
+
+    border-radius: 50%;
+    color: white;
+    background-color: var(--col--shade);
+
+    transform: translateY(0);
+  
+    transition: 0.15s ease-in-out;
+
+    &:not(&--disabled):hover {
+      transform: translateY(0.05em);
+    }
+  
+    &--plus {
+      height: 1.75em;
+      width: 2em;
+      margin-left: 1em;
+
+      border-radius: 0.25em;
+      background-color: white;
+      color: var(--col--shade);
+  
+      &:not(&--disabled):hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &--minus {
+      position: absolute;
+      top: 0.5rem;
+      right: 0em;
+      font-size: small;
+
+      box-shadow: 0 0.05em 15px rgba(0, 0, 0, 0.3);
+      background-color: transparent;
+    }
+
+    &--submit {
+      padding: 0.25em 0;
+      width: 8em;
+      position: absolute;
+      right: calc(50% - 4em);
+      bottom: 15%;
+
+      z-index: 15;
+      border-radius: 0.25em;
+      background-color: white;
+      color: var(--col--shade);
+      box-shadow: 0 0.05em 15px rgba(0, 0, 0, 0.3);
+
+      &:not(&--disabled):hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &--disabled {
+      user-select: none;
+      cursor: default;
+
+      filter: brightness(50%);
+    }
+  }
+
+  &__label {
+    margin-top: 0.5em;
+
+    color: var(--col-bright--secondary);
+  }
+
+  &__word {
+    display: flex;
+    flex-direction: row;
+    margin: 0.25em 0;
+    position: relative;
+    align-items: center;
+    padding: 0 1em;
+    widows: 100%;
+
+    background-color: var(--col-dark--primary);
+  }
+
+  &__language {
+    opacity: 0.5;
+    padding-left: 1em;
+  }
+}
