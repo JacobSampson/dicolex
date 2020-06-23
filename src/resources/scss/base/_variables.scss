@@ -1,14 +1,16 @@
 :root {
     /* palette */
 
-    --col-bright--primary: '#1D5B8A';
-    --col-bright--secondary: '#30779B';
+    --col-bright--primary: #1D5B8A;
+    --col-bright--secondary: #30779B;
 
-    --col-shade: rgb(14, 13, 13);
+    --col--shade: rgb(14, 13, 13);
 
-    --col-dark--primary: '#4A4A4A';
-    --col-dark--secondary: '#3A3A3A';
-    --col-dark--tertiary: 'gray';
+    --col-dark--primary: #4A4A4A;
+    --col-dark--secondary: #3A3A3A;
+    --col-dark--tertiary: gray;
+
+    --col--error: rgb(199, 74, 74);
 
     /* fonts */
     --font--main: "Trebuchet MS", Helvetica, sans-serif;
