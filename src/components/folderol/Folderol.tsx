@@ -31,7 +31,7 @@ const Folderol = ({
         }
         return t + 1;
       });
-    }, RATE)
+    }, RATE);
   }, [t]);
 
   const f = (x: number): number => {

@@ -1,16 +1,26 @@
-.generated-words {
-  position: relative;
-  top: 12.5em;
+@import 'src/resources/scss/components/button';
+@import 'src/resources/scss/animations/pop-in';
 
+.generated-words {
+  position: relative; 
+
+  color: white;
   font-family: var(--font--main);
 
   &__word {
+    position: relative;
     padding: 2em;
     display: flex;
     flex-direction: row;
     margin-bottom: 1em;
 
     background-color: var(--col-dark--primary);
+
+    animation: 0.15s pop-in ease-in-out forwards;
+
+    &:first-of-type {
+      margin-top: 1em;
+    }
   }
 
   &__combo {
@@ -23,6 +33,16 @@
   }
 
   &__original {
+    padding-left: 1em;
+  }
 
+  &__button {
+    @include button;
+
+    &--icon {
+      top: 1.5rem;
+      right: 1rem;
+      font-size: medium;
+    }
   }
 }
