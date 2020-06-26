@@ -1,5 +1,7 @@
-const generateWordCombos = (words: { word: string, originalWord: string, languageCode: string }[]): { words: string[], originalWords: string[], languageCodes: string[] }[] => {
-  const comboWords: { words: string[], originalWords: string[], languageCodes: string[] }[] = [];
+import { WordCombo } from "../models/word-combo";
+
+const generateWordCombos = (words: { word: string, originalWord: string, languageCode: string }[]): WordCombo[] => {
+  const comboWords: WordCombo[] = [];
 
   words.forEach((word, j) => {
     words.forEach((comboWord, i) => {
@@ -14,7 +16,10 @@ const generateWordCombos = (words: { word: string, originalWord: string, languag
     });
   });
 
-  return comboWords;
+  return comboWords.sort((comboWord, otherComboWord) =>
+    (comboWord.words[0].length + comboWord.words[1].length) - 
+    (otherComboWord.words[0].length + otherComboWord.words[1].length)
+  );
 }
 
 export { generateWordCombos };

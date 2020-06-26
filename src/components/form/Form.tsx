@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Form.scss';
 import WiktionaryService from '../../core/services/wiktionary-service';
 import { LANGUAGE_CODES } from '../../core/constants/language-codes';
+import { Word } from '../../core/models/word';
 
 interface FormData {
   words: { value: string, languageCode: string }[];
@@ -21,7 +22,7 @@ const DEFAULT_FORM_DATA: FormData = {
 }
 
 interface FormProps {
-  addWords: (words: { word: string, originalWord: string, languageCode: string }[]) => void;
+  addWords: (words: Word[]) => void;
 }
 const CLASS = 'form';
 const Form = ({ addWords }: FormProps) => {
@@ -64,14 +65,13 @@ const Form = ({ addWords }: FormProps) => {
   const handleSubmit = (formData: FormData) => {
     console.log(formData);
 
-    formData.words.map(word => {
+    Promise.all(formData.words.map(word => {
       return WiktionaryService.translate(word.value, word.languageCode, formData.toLanguage)
-        .then(words => {
-          addWords(words);
-        })
-        .catch(error => handleError(error))
-    });
-  };
+    })).then(words => {
+      const compiledWords = words.reduce((compiledWords, words) => [...compiledWords, ...words], []);
+      addWords(compiledWords);
+    }).catch(error => handleError(error));
+  }
 
   const handleError = (newError: Error) => {
     const otherErrors: string[] = [];

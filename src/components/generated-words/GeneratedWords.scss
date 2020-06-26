@@ -9,12 +9,14 @@
 
   &__word {
     position: relative;
-    padding: 2em;
+    padding: 2em 2em 2em 0em;
     display: flex;
     flex-direction: row;
     margin-bottom: 1em;
+    align-items: center;
+    justify-content: space-evenly;
 
-    background-color: var(--col-dark--primary);
+    background-color: var(--col--dark);
 
     animation: 0.15s pop-in ease-in-out forwards;
 
@@ -24,16 +26,18 @@
   }
 
   &__combo {
+    padding: 1em;
+    flex-basis: 30%;
 
+    background-color: var(--col-dark--primary);
   }
   
   &__language {
     opacity: 0.5;
-    padding-left: 1em;
   }
 
   &__original {
-    padding-left: 1em;
+
   }
 
   &__button {
@@ -42,7 +46,33 @@
     &--icon {
       top: 1.5rem;
       right: 1rem;
+      padding: 0.25em;
+      width: 2em;
+      height: 2em;
+      
+      background-color: var(--col-dark--primary);
+
       font-size: medium;
+    }
+
+    &--active {
+      transform: translateY(0.05em);
+
+      background-color: var(--col--shade);
+    }
+
+    &--label {
+      position: relative;
+      display: block;
+      margin: 1em auto;
+      height: 1.5em;
+
+      background: transparent;
+      color: var(--col--shade);
+
+      &:hover {
+        color: var(--col-dark--tertiary);
+      }
     }
   }
 }

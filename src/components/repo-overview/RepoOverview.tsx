@@ -2,7 +2,7 @@ import React from 'react';
 import './RepoOverview.scss';
 
 const DEFAULT_REPO = {
-  title: 'diolex',
+  title: 'dicolex',
   link: 'https://github.com/JacobSampson/dicolex',
   description: 'generate project names on the fly',
   technologies: [

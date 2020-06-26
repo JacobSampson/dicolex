@@ -14,15 +14,11 @@ class WiktionaryService {
     const url = `https://${fromLanguage}.${WIKTIONARY_ENDPOINT}?${params}`;
     const request = await fetch(url);
     
-    console.log('url', url)
-
     // Parse response
     const response = await request.json();
     if (!response.query || !response.query.pages  ) {
       throw new Error('Issue with request');
     }
-
-    console.log('response', response)
 
     const pages = response.query.pages;
     const words = pages[Object.keys(pages)[0]].iwlinks;
