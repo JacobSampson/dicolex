@@ -1,3 +1,16 @@
 @keyframes pop-in {
+  0% {
+    opacity: 0%;
+    transform: scale(0.95);
+  }
+  50% { transform: scale(1); }
+  80% { transform: scale(1.02); }
+  100% {
+    opacity: 100%;
+    transform: scale(1);
+  }
+}
 
+@mixin pop-in {
+  animation: 0.15s pop-in ease-out forwards;
 }

@@ -1,18 +1,30 @@
 @import 'src/resources/scss/components/button';
 @import 'src/resources/scss/animations/fade-in-out';
+@import 'src/resources/scss/animations/pop-in';
 
 .form {
-  padding: 3em;
+  position: relative;
+  padding: 3em 0;
   display: flex;
   flex-direction: column;
+  width: 30em;
+  margin: 0 auto;
 
   font-family: var(--font--main);
+
+  &__explanation {
+    margin-bottom: 2.5em;
+
+    color: var(--col-dark--tertiary);
+  }
 
   &__addition {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    position: relative;
   }
 
   &__input {
@@ -31,7 +43,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 3em 0;
+    margin-bottom: 2em;
   }
 
   &__select {
@@ -42,6 +54,7 @@
 
     text-align-last: center;
     background-color: var(--col-dark--primary);
+    border-radius: 0.25em;
 
     &:hover {
       filter: brightness(0.8);
@@ -56,8 +69,6 @@
 
   &__arrow {
     margin: 0 1em;
-
-
   }
 
   &__option {
@@ -106,9 +117,9 @@
     &--submit {
       padding: 0.25em 0;
       width: 8em;
-      position: absolute;
-      right: calc(50% - 4em);
-      bottom: 15%;
+      margin: 0 auto;
+      margin-top: 3em;
+      margin-bottom: 3em;
 
       z-index: 15;
       border-radius: 0.25em;
@@ -138,17 +149,24 @@
   &__word {
     display: flex;
     flex-direction: row;
-    margin: 0.25em 0;
+    margin: 0;
+    margin-bottom: 1em;
     position: relative;
     align-items: center;
     padding: 0 1em;
-    widows: 100%;
 
     background-color: var(--col-dark--primary);
+    border-radius: 0.25em;
+
+    @include pop-in;
   }
 
   &__language {
     opacity: 0.5;
     padding-left: 1em;
+
+    &--label {
+      padding-left: 1em;
+    }
   }
 }

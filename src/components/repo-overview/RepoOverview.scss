@@ -1,13 +1,28 @@
 .repo-overview {
-  padding: 1.5em 1em;
+  padding: 0;
   position: relative;
-  margin-bottom: 2em;
-  min-height: 7em;
+  margin-bottom: 1em;
+  width: 100%;
+  height: 100%;
+
+  margin-right: -50vw;
+  margin-left: -50vw;
+  padding-right: 50vw;
+  padding-left: 50vw;
+  // min-height: 7em;
 
   color: white;
   font-family: var(--font--main);
   font-weight: 300;
   // font-size: 0.75em;
+
+  &__content {
+    margin: 0 auto;
+    position: relative;
+    display: block;
+    padding: 1em;
+    width: 30em;
+  }
 
   &__title {
     margin: 0;
@@ -18,6 +33,7 @@
 
   &__description {
     margin-top: 0.5em;
+    margin-bottom: 2em;
 
     font-weight: 50;
   }
@@ -28,16 +44,17 @@
     display: flex;
     flex-direction: row;
     position: absolute;
-    right: 1em;
+    right: 0em;
     top: 1em;
+    margin: 0;
 
     list-style: none;
   }
 
   &__repo {
     position: absolute;
-    right: 0em;
-    bottom: -1.5em;
+    bottom: -2em;
+    right: 0;
     width: 4em;
     height: 4em;
     margin-right: -0.5em;
@@ -73,7 +90,7 @@
     }
 
     &--github {
-      background-image: url('/resources/icons/github.png');
+      background-image: url('/resources/icons/github.webp');
     }
 
   }
@@ -82,7 +99,7 @@
     position: absolute;
     margin: 0;
     padding: 0;
-    right: 4.5em;
+    right: 4em;
     bottom: 0.25em;
 
     text-decoration: none;
@@ -114,7 +131,7 @@
 
   &__highlight {
     height: 1em;
-    width: calc(100% - 2em);
+    width: 100%;
     position: absolute;
     margin: 0;
     left: 0;
@@ -123,3 +140,24 @@
     z-index: -1;
   }
 }
+
+@media (max-width:555px) {
+.repo-overview {
+  &__content {
+    width: auto;
+  }
+
+  &__repo {
+
+    right: 0.25em;
+  }
+
+  &__technologies {
+    right: 0.5em;
+  }
+
+  &__site {
+
+    right: 4.5em;
+  }
+}}

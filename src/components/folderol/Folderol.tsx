@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ReactElement } from 'react';
 import './Folderol.scss';
 
-const RATE = 50;
+const RATE = 10;
 const DEFAULT_PALETTE = ['#4A4A4A', '#3A3A3A', 'gray'];
 
 export enum FolderolType {
@@ -29,7 +29,7 @@ const Folderol = ({
         if (t === Number.MAX_SAFE_INTEGER) {
           return 0;
         }
-        return t + 1;
+        return t + 0.25;
       });
     }, RATE);
   }, [t]);

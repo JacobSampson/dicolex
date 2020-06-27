@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import './GeneratedWords.scss';
-import { generateWordCombos } from '../../core/services/word-comination-service';
 import { WordCombo } from '../../core/models/word-combo';
-import { Word } from '../../core/models/word';
 
 const MAX_NUM_GENERATED_WORDS = 50;
 
 interface GeneratedWordsProps {
-  words: Word[];
+  generatedWords: WordCombo[];
+  setGeneratedWords: (generatedWords: WordCombo[]) => void;
 }
 
 const CLASS = 'generated-words';
-const GeneratedWords = ({ words = [] }: GeneratedWordsProps) => {
+const GeneratedWords = ({ generatedWords = [], setGeneratedWords }: GeneratedWordsProps) => {
   const [pinnedWords, setPinnedWords] = useState<WordCombo[]>([]);
   const [displayUnpinned, toggleDisplayUnpinned] = useState<boolean>(true);
 
@@ -23,16 +22,16 @@ const GeneratedWords = ({ words = [] }: GeneratedWordsProps) => {
     return comboWord.words[0] === otherComboWord.words[0] && comboWord.words[1] === otherComboWord.words[1];
   }
   
-  const generatedWords = generateWordCombos(words).sort((word, otherWord) =>  +isPinnedComboWord(otherWord) - +isPinnedComboWord(word));
-  const displayedWords = generatedWords.filter((word, index) => {
-    if (index >= MAX_NUM_GENERATED_WORDS) {
-      return false;
-    }
-    if (!displayUnpinned) {
-      return isPinnedComboWord(word);
-    }
-    return true;
-  });
+  const displayedWords = generatedWords.sort((word, otherWord) =>  +isPinnedComboWord(otherWord) - +isPinnedComboWord(word))
+    .filter((word, index) => {
+      if (index >= MAX_NUM_GENERATED_WORDS) {
+        return false;
+      }
+      if (!displayUnpinned) {
+        return isPinnedComboWord(word);
+      }
+      return true;}
+    );
 
   const togglePinnedWord = (word: WordCombo) => {
     if (isPinnedComboWord(word)) {
@@ -43,14 +42,30 @@ const GeneratedWords = ({ words = [] }: GeneratedWordsProps) => {
     setPinnedWords([word, ...pinnedWords]);
   }
 
-  const clearWords = (): void => {
+  const hideWords = (): void => {
     toggleDisplayUnpinned(!displayUnpinned);
+  }
+
+  const clearWords = (): void => {
+    setGeneratedWords(pinnedWords);
   }
 
   return (
     <section className={CLASS}>
-      { (generatedWords.length) && <button className={`${CLASS}__button ${CLASS}__button--label`} type='button'onClick={e => clearWords()}>
-        { displayUnpinned ? 'hide' : 'show' } unpinned words</button> }
+      <div className={`${CLASS}__buttons`}>
+        { !!generatedWords.length &&
+          (<button className={`${CLASS}__button ${CLASS}__button--label` + ((!pinnedWords.length) ? ` ${CLASS}__button--disabled` : '')}
+            type='button'
+            onClick={e => hideWords()}>
+            { displayUnpinned ? 'hide' : 'show' } unpinned words</button>)
+        }
+        { !!generatedWords.length &&
+          <button className={`${CLASS}__button ${CLASS}__button--label` + ((generatedWords.length === pinnedWords.length) ? ` ${CLASS}__button--disabled` : '')}
+            type='button'
+            onClick={e => clearWords()}>
+            clear unpinned words</button>
+        }
+      </div>
       {displayedWords.map(generatedWord => (
         <div className={`${CLASS}__word`} key={`${generatedWord.words[0]}&${generatedWord.words[1]}`}>
           <p className={`${CLASS}__combo`}>{`${generatedWord.words[0]} · ${generatedWord.words[1]}`}</p>

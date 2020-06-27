@@ -10,7 +10,7 @@ interface FormData {
   toLanguage: string;
 }
 
-const MAX_WORDS = 2;
+const MAX_WORDS = 5;
 const MAX_ERRORS = 1;
 const DEFAULT_FROM_LANGUAGE = 'en';
 const DEFAULT_TO_LANGUAGE = 'la';
@@ -86,18 +86,8 @@ const Form = ({ addWords }: FormProps) => {
 
   return (
     <form className={CLASS} onSubmit={e => { e.preventDefault(); addWord(currWord); }}>
-      <div className={`${CLASS}__addition`}>
-        <input className={`${CLASS}__input`} placeholder='' onChange={e => setCurrWord(e.target.value as string)}></input>
-        <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
-          type='button'
-          onClick={e => addWord(currWord)}>+</button>
-      </div>
-      <p className={`${CLASS}__label`}>add new word</p>
-
-      <div className={`${CLASS}__errors`}>
-        {errors.map(error => (
-          <p key={error} className={`${CLASS}__error ${CLASS}__error--active`}>{error}</p>
-        ))}
+      <div className={`${CLASS}__explanation`}>
+        any entered words will have their translations combined to form unique project names with actual meaning
       </div>
 
       <div className={`${CLASS}__selects`}>
@@ -123,6 +113,22 @@ const Form = ({ addWords }: FormProps) => {
             onClick={e => removeWord(word.value)}>✕</button>
         </div>
       ))}
+
+      <div className={`${CLASS}__addition`}>
+        <input className={`${CLASS}__input`} placeholder='' onChange={e => setCurrWord(e.target.value as string)}></input>
+        <p className={`${CLASS}__language ${CLASS}__language--label`}>{formData.fromLanguage}</p>
+        <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
+          type='button'
+          onClick={e => addWord(currWord)}>+</button>
+      </div>
+      <p className={`${CLASS}__label`}>add new word</p>
+
+      <div className={`${CLASS}__errors`}>
+        {errors.map(error => (
+          <p key={error} className={`${CLASS}__error ${CLASS}__error--active`}>{error}</p>
+        ))}
+      </div>
+
       <button className={`${CLASS}__button ${CLASS}__button--submit` + (!formData.words.length || formData.fromLanguage === formData.toLanguage ? ` ${CLASS}__button--disabled` : '')}
         type='button'
         onClick={() => handleSubmit(formData)}>

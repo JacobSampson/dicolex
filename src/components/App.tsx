@@ -6,27 +6,32 @@ import Form from './form/Form';
 import RepoOverview from './repo-overview/RepoOverview';
 import GeneratedWords from './generated-words/GeneratedWords';
 import { Word } from '../core/models/word';
+import { WordCombo } from '../core/models/word-combo';
+import { generateWordCombos } from '../core/services/word-comination-service';
 
 const CLASS = 'app';
 function App() {
-  const [words, updateWords] = useState<Word[]>([]);
+  const [generatedWords, setGeneratedWords] = useState<WordCombo[]>([]);
+  
 
   const handleWords = (newWords: Word[]): void => {
-    const uniqueNewWords = newWords.filter(newWord => !words.find(oldWord => oldWord.word === newWord.word));
+    const newGeneratedWords = generateWordCombos(newWords);
 
-    updateWords([...uniqueNewWords, ...words]);
+    setGeneratedWords([...newGeneratedWords, ...generatedWords]);
   }
   
   return (
     <div className={CLASS}>
-      <RepoOverview />
+      <div className={`${CLASS}__overview`}>
+        <RepoOverview />
+      </div>
       <main className={CLASS + '__main'}>
         <Form addWords={handleWords}/>
         <div className={`${CLASS}__folderol`}>
           <Folderol />
         </div>
       </main>
-      <GeneratedWords words={words} />
+      {!!generatedWords.length && <GeneratedWords generatedWords={generatedWords} setGeneratedWords={setGeneratedWords} />}
       {/* <Footer /> */}
     </div>
   );

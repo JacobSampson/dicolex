@@ -28,18 +28,20 @@ const CLASS = 'repo-overview';
 function RepoOverview({repo = DEFAULT_REPO, palette = DEFAULT_PALETTE}: RepoOverviewProps) {
   return (
     <div className={CLASS} style={{ backgroundColor: palette[0] }}>
-       <h2 className={CLASS + '__title'}>{repo.title}</h2>
-       <p className={CLASS + '__description'}>{repo.description}</p>
-       <ul className={CLASS + '__technologies'}>
-         {repo.technologies.map(technology => (
-           <li key={technology} className={`${CLASS}__icon ${CLASS}__icon--technology`} title={technology} style={{ backgroundImage: `url('resources/icons/${technology.toLowerCase()}.png')` }}></li>
-         ))}
-       </ul>
-       <a className={CLASS + '__repo'} title={repo.link} href={repo.link} target='_blank' rel='noopener noreferrer'>
-         <div className={`${CLASS}__icon ${CLASS}__icon--github`}></div>
-       </a>
-       <a className={CLASS + '__site'} title='https://sampsonjacob.com' href='https://sampsonjacob.com' target='_blank' rel='noopener noreferrer'>sampsonjacob.com</a>
-       <div className={CLASS + '__highlight'} style={{ backgroundColor: palette[1] }}></div>
+      <div className={`${CLASS}__content`}>
+        <h2 className={CLASS + '__title'}>{repo.title}</h2>
+        <p className={CLASS + '__description'}>{repo.description}</p>
+        <ul className={CLASS + '__technologies'}>
+          {repo.technologies.map(technology => (
+            <li key={technology} className={`${CLASS}__icon ${CLASS}__icon--technology`} title={technology} style={{ backgroundImage: `url('resources/icons/${technology.toLowerCase()}.png')` }}></li>
+          ))}
+        </ul>
+        <a className={CLASS + '__repo'} title={repo.link} href={repo.link} target='_blank' rel='noopener noreferrer'>
+          <div className={`${CLASS}__icon ${CLASS}__icon--github`}></div>
+        </a>
+        <a className={CLASS + '__site'} title='https://sampsonjacob.com' href='https://sampsonjacob.com' target='_blank' rel='noopener noreferrer'>sampsonjacob.com</a>
+      </div>
+      <div className={CLASS + '__highlight'} style={{ backgroundColor: palette[1] }}></div>
     </div>
   );
 }
