@@ -56,7 +56,6 @@ const Folderol = ({
             <path
               className={`${CLASS}__element`}
               fill={color}
-              fillOpacity={1}
               d={`
                 M ${origin}, ${end}
                 Q ${mid / 2}, ${f(t  + dt)} ${mid}, ${mid}

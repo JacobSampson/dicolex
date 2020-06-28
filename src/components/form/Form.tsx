@@ -31,16 +31,17 @@ const Form = ({ addWords }: FormProps) => {
   const [errors, updateErrors] = useState<string[]>([]);
 
   const addWord = (newWord: string) => {
+
     if (formData.words.length >= MAX_WORDS
         || !newWord.length
         || formData.words.some(word => {
-          return word.value === newWord && word.fromLanguage === formData.fromLanguage && word.toLanguage === formData.toLanguage})) {
+          return word.value === newWord.toLocaleLowerCase() && word.fromLanguage === formData.fromLanguage && word.toLanguage === formData.toLanguage})) {
       return false;
     }
 
     updateFormData({
       ...formData,
-      words: [ ...formData.words, { value: newWord, fromLanguage: formData.fromLanguage, toLanguage: formData.toLanguage} ]
+      words: [ ...formData.words, { value: newWord.toLocaleLowerCase(), fromLanguage: formData.fromLanguage, toLanguage: formData.toLanguage} ]
     });
   };
 

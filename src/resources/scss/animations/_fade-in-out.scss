@@ -1,6 +1,6 @@
 @keyframes fade-in-out {
-	// 0% { opacity: 0%; }
-	// 10% { opacity: 100%; }
-	// 85% { opacity: 100%; }
-	// 100% { opacity: 0%; }
+	0% { opacity: 0; }
+	10% { opacity: 1; }
+	85% { opacity: 1; }
+	100% { opacity: 0; }
 }
