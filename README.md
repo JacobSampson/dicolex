@@ -20,7 +20,7 @@ Below is a table of some interesting word combinations
 
 | Input          |      |     |  Result    |
 |:---------------|:-----|:----|-----------:|
-|  say · rule |  lat  |  la   | dico · lex |
+|  say · rule |  la  |  la   | dico · lex |
 | hello · hello  |  en  |  la | ave · dico |
 | hello · hello  |  la  |  es | ave · sí |
 | understand · read  |  la    |  la | lego · scio |
