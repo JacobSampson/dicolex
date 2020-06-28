@@ -41,12 +41,12 @@
   }
   
   &__language {
+    margin: 0 1em 0 2em;
+
     opacity: 0.5;
   }
 
-  &__original {
-    margin: 0 1em 0 2em;
-  }
+  &__original { }
 
   &__buttons {
     display: flex;
@@ -80,6 +80,7 @@
       display: block;
       margin: 1em auto;
       height: 1.5em;
+      flex-basis: 50%;
 
       background: transparent;
 
@@ -112,7 +113,7 @@
 
   &__word {
     display: grid;
-    grid-template-areas: "combo combo" "orig lang";
+    grid-template-areas: "combo combo" "lang orig";
 
     background-color: transparent;
   }
@@ -123,7 +124,6 @@
 
     border-radius: 0.25em;
     border: none;
-
     background-color: var(--col-dark--primary);
   }
 

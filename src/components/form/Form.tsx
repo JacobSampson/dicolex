@@ -5,7 +5,7 @@ import { LANGUAGE_CODES } from '../../core/constants/language-codes';
 import { Word } from '../../core/models/word';
 
 interface FormData {
-  words: { value: string, languageCode: string }[];
+  words: { value: string, fromLanguage: string, toLanguage: string }[];
   fromLanguage: string;
   toLanguage: string;
 }
@@ -31,13 +31,16 @@ const Form = ({ addWords }: FormProps) => {
   const [errors, updateErrors] = useState<string[]>([]);
 
   const addWord = (newWord: string) => {
-    if (formData.words.length >= MAX_WORDS || !newWord.length || formData.words.some(word => word.value === newWord)) {
+    if (formData.words.length >= MAX_WORDS
+        || !newWord.length
+        || formData.words.some(word => {
+          return word.value === newWord && word.fromLanguage === formData.fromLanguage && word.toLanguage === formData.toLanguage})) {
       return false;
     }
 
     updateFormData({
       ...formData,
-      words: [ ...formData.words, { value: newWord, languageCode: formData.fromLanguage} ]
+      words: [ ...formData.words, { value: newWord, fromLanguage: formData.fromLanguage, toLanguage: formData.toLanguage} ]
     });
   };
 
@@ -64,10 +67,11 @@ const Form = ({ addWords }: FormProps) => {
 
   const handleSubmit = (formData: FormData) => {
     Promise.all(formData.words.map(word => {
-      return WiktionaryService.translate(word.value, word.languageCode, formData.toLanguage)
+      return WiktionaryService.translate(word.value.toLocaleLowerCase(), word.fromLanguage, word.toLanguage)
         .then(words => {
           return words
         }).catch(error => {
+          console.log("DSFSDF")
           handleError(error);
           return [];
         }) as any as any[];
@@ -77,14 +81,7 @@ const Form = ({ addWords }: FormProps) => {
   }
 
   const handleError = (newError: Error) => {
-    const otherErrors: string[] = [];
-    updateErrors([newError.message, ...errors].filter((error, index) => {
-      if (index >= MAX_ERRORS || otherErrors.includes(error)) {
-        return false;
-      }
-      otherErrors.push(error);
-      return true;
-    }));
+    updateErrors([newError.message, ...errors].filter((_, index) => index < MAX_ERRORS));
   }
 
   return (
@@ -108,23 +105,27 @@ const Form = ({ addWords }: FormProps) => {
       </div>
 
       {formData.words.map(word => (
-        <div className={`${CLASS}__word`} key={word.value}>
+        <div className={`${CLASS}__word`} key={`${word.value}_${word.fromLanguage}_${word.toLanguage}`}>
           <p>{word.value}</p>
-          <p className={`${CLASS}__language`}>{word.languageCode}</p>
+      <p className={`${CLASS}__language`}>{`${word.fromLanguage} · ${word.toLanguage}`}</p>
           <button className={`${CLASS}__button ${CLASS}__button--icon`}
             type='button'
             onClick={e => removeWord(word.value)}>✕</button>
         </div>
       ))}
 
-      <div className={`${CLASS}__addition`}>
-        <input className={`${CLASS}__input`} placeholder='' onChange={e => setCurrWord(e.target.value as string)}></input>
-        <p className={`${CLASS}__language ${CLASS}__language--label`}>{formData.fromLanguage}</p>
-        <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
-          type='button'
-          onClick={e => addWord(currWord)}>+</button>
-      </div>
-      <p className={`${CLASS}__label`}>add new word</p>
+      {!!(formData.words.length < MAX_WORDS) &&
+        <div className={`${CLASS}__addition`}>
+          <input className={`${CLASS}__input`} placeholder='' onChange={e => setCurrWord(e.target.value as string)}></input>
+          <p className={`${CLASS}__language ${CLASS}__language--label`}>{formData.fromLanguage}</p>
+          <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
+            type='button'
+            onClick={e => addWord(currWord)}>+</button>
+        </div>
+      }
+      <p className={`${CLASS}__label`}>
+        {formData.words.length >= MAX_WORDS ? 'maximum number of words entered' : 'add new word'}
+      </p>
 
       <div className={`${CLASS}__errors`}>
         {errors.map(error => (

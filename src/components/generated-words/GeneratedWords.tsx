@@ -64,10 +64,10 @@ const GeneratedWords = ({ generatedWords = [], setGeneratedWords }: GeneratedWor
         }
       </div>
       {displayedWords.map(generatedWord => (
-        <div className={`${CLASS}__word`} key={`${generatedWord.words[0]}&${generatedWord.words[1]}`}>
+        <div className={`${CLASS}__word`} key={`${generatedWord.words[0]}_${generatedWord.words[1]}`}>
           <p className={`${CLASS}__combo`}>{`${generatedWord.words[0]} · ${generatedWord.words[1]}`}</p>
-          <p className={`${CLASS}__original`}>{`${generatedWord.originalWords[0]} · ${generatedWord.originalWords[1]}`}</p>
           <p className={`${CLASS}__language`}>{`${generatedWord.languageCodes[0]} · ${generatedWord.languageCodes[1]}`}</p>
+          <p className={`${CLASS}__original`}>{`${generatedWord.originalWords[0]} · ${generatedWord.originalWords[1]}`}</p>
           <button className={`${CLASS}__button ${CLASS}__button--icon` + (isPinnedComboWord(generatedWord) ? ` ${CLASS}__button--active` : '')}
             type='button'
             onClick={e => togglePinnedWord(generatedWord)}><i className="fa fa-thumb-tack" aria-hidden="true"></i></button>
