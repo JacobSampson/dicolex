@@ -3,13 +3,11 @@
   position: relative;
   margin-bottom: 1em;
   width: 100%;
-  height: 100%;
 
   margin-right: -50vw;
   margin-left: -50vw;
   padding-right: 50vw;
   padding-left: 50vw;
-  // min-height: 7em;
 
   color: white;
   font-family: var(--font--main);
@@ -20,8 +18,9 @@
     margin: 0 auto;
     position: relative;
     display: block;
-    padding: 1em;
-    width: 30em;
+    height: 7em;
+    padding: 2em 1em;
+    width: var(--width);
   }
 
   &__title {
@@ -141,14 +140,15 @@
   }
 }
 
-@media (max-width:555px) {
+@media (max-width:35em) {
 .repo-overview {
   &__content {
     width: auto;
+    height: 8em;
+    padding: 2em 1em;
   }
 
   &__repo {
-
     right: 0.25em;
   }
 

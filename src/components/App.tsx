@@ -7,7 +7,8 @@ import RepoOverview from './repo-overview/RepoOverview';
 import GeneratedWords from './generated-words/GeneratedWords';
 import { Word } from '../core/models/word';
 import { WordCombo } from '../core/models/word-combo';
-import { generateWordCombos } from '../core/services/word-comination-service';
+import { generateWordCombos } from '../core/services/word-combo-service';
+import { comboWordsAreEqual } from '../core/utilities/word-combo-helpers';
 
 const CLASS = 'app';
 function App() {
@@ -16,8 +17,11 @@ function App() {
 
   const handleWords = (newWords: Word[]): void => {
     const newGeneratedWords = generateWordCombos(newWords);
+    const uniqueGeneratedWords = newGeneratedWords.filter(newGeneratedWord => {
+      return !generatedWords.some(generatedWord => comboWordsAreEqual(newGeneratedWord, generatedWord));
+    });
 
-    setGeneratedWords([...newGeneratedWords, ...generatedWords]);
+    setGeneratedWords([...uniqueGeneratedWords, ...generatedWords]);
   }
   
   return (

@@ -7,7 +7,7 @@
   padding: 3em 0;
   display: flex;
   flex-direction: column;
-  width: 30em;
+  width: var(--width);
   margin: 0 auto;
 
   font-family: var(--font--main);
@@ -43,7 +43,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 2em;
+    margin-bottom: 4em;
   }
 
   &__select {
@@ -170,3 +170,30 @@
     }
   }
 }
+
+@media (max-width:35em) {
+.form {
+  width: auto;
+  padding: 3em 1em 0 1em;
+
+  &__explanation {
+    margin-bottom: 4em;
+
+    text-align: center;
+  }
+
+  &__selects {
+    flex-direction: column;
+  }
+
+  &__arrow {
+    margin: 1em 0;
+    transform: rotate(90deg);
+  }
+
+  &__addition {
+    width: auto;
+  }
+
+
+}}

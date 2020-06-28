@@ -37,3 +37,10 @@ $half-screen-width: 50vw;
     z-index: -1;
   }
 }
+
+@media (max-width:35em) {
+.app {
+  &__folderol {
+    height: 30em;
+  }
+}}

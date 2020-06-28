@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './GeneratedWords.scss';
 import { WordCombo } from '../../core/models/word-combo';
+import { comboWordsAreEqual } from '../../core/utilities/word-combo-helpers';
 
 const MAX_NUM_GENERATED_WORDS = 50;
 
@@ -18,10 +19,6 @@ const GeneratedWords = ({ generatedWords = [], setGeneratedWords }: GeneratedWor
     return !!pinnedWords.find(pinnedWord => comboWordsAreEqual(pinnedWord, comboWord));
   }
 
-  const comboWordsAreEqual = (comboWord: WordCombo, otherComboWord: WordCombo): boolean => {
-    return comboWord.words[0] === otherComboWord.words[0] && comboWord.words[1] === otherComboWord.words[1];
-  }
-  
   const displayedWords = generatedWords.sort((word, otherWord) =>  +isPinnedComboWord(otherWord) - +isPinnedComboWord(word))
     .filter((word, index) => {
       if (index >= MAX_NUM_GENERATED_WORDS) {

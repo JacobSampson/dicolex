@@ -9,7 +9,7 @@
   padding-top: 1em;
   color: white;
   font-family: var(--font--main);
-  width: 30em;
+  width: var(--width);
   margin: 0 auto;
 
   @include fade-in;
@@ -19,10 +19,11 @@
     padding-right: 2em;
     display: flex;
     flex-direction: row;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     align-items: center;
+    border-radius: 0.5em;
 
-    background-color: var(--col--dark);
+    background-color: var(--col-dark--primary);
 
     @include pop-in;
 
@@ -33,10 +34,10 @@
 
   &__combo {
     padding: 1em;
+    margin-left: 1em;
     flex-basis: 30%;
-    border-radius: 0.25em;
 
-    background-color: var(--col-dark--primary);
+    border-right: 2px solid var(--col-dark--tertiary);
   }
   
   &__language {
@@ -44,12 +45,13 @@
   }
 
   &__original {
-    margin: 0 1em;
+    margin: 0 1em 0 2em;
   }
 
   &__buttons {
     display: flex;
     flex-direction: row;
+    margin-bottom: 1em;
   }
 
   &__button {
@@ -97,3 +99,39 @@
     }
   }
 }
+
+@media (max-width: 35em) {
+.generated-words {
+  margin: 1em 1em 0 1em;
+  width: auto;
+
+  &__buttons {
+    flex-direction: column;
+    margin: 1em 0 2em 0;
+  }
+
+  &__word {
+    display: grid;
+    grid-template-areas: "combo combo" "orig lang";
+
+    background-color: transparent;
+  }
+
+  &__combo {
+    grid-area: combo;
+    margin-right: 3em;
+
+    border-radius: 0.25em;
+    border: none;
+
+    background-color: var(--col-dark--primary);
+  }
+
+  &__language {
+    grid-area: lang;
+  }
+
+  &__original {
+    grid-area: orig;
+  }
+}}

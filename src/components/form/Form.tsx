@@ -63,14 +63,17 @@ const Form = ({ addWords }: FormProps) => {
   };
 
   const handleSubmit = (formData: FormData) => {
-    console.log(formData);
-
     Promise.all(formData.words.map(word => {
       return WiktionaryService.translate(word.value, word.languageCode, formData.toLanguage)
-    })).then(words => {
-      const compiledWords = words.reduce((compiledWords, words) => [...compiledWords, ...words], []);
-      addWords(compiledWords);
-    }).catch(error => handleError(error));
+        .then(words => {
+          return words
+        }).catch(error => {
+          handleError(error);
+          return [];
+        }) as any as any[];
+    }))
+      .then(words => words.reduce((compiledWords, words) => [...compiledWords, ...words], []))
+      .then(compiledWords => addWords(compiledWords));
   }
 
   const handleError = (newError: Error) => {
@@ -87,7 +90,7 @@ const Form = ({ addWords }: FormProps) => {
   return (
     <form className={CLASS} onSubmit={e => { e.preventDefault(); addWord(currWord); }}>
       <div className={`${CLASS}__explanation`}>
-        any entered words will have their translations combined to form unique project names with actual meaning
+        any entered words will have their translations combined to form unique project names with actual meanings
       </div>
 
       <div className={`${CLASS}__selects`}>

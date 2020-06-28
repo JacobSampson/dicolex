@@ -4,7 +4,7 @@ import './Footer.scss';
 function Footer() {
   return (
     <div className="footer">
-      This is the footer
+      Created by Jacob Sampson
     </div>
   );
 }
