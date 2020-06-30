@@ -37,6 +37,11 @@ $half-screen-width: 50vw;
   }
 }
 
+@media not screen {
+.app {
+  overflow: hidden;
+}}
+
 @media (max-width:35em) {
 .app {
   &__folderol {

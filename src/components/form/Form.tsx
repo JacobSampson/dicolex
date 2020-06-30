@@ -8,6 +8,7 @@ interface FormData {
   words: { value: string, fromLanguage: string, toLanguage: string }[];
   fromLanguage: string;
   toLanguage: string;
+  useIndividualLanguage: boolean;
 }
 
 const MAX_WORDS = 5;
@@ -19,6 +20,7 @@ const DEFAULT_FORM_DATA: FormData = {
   words: [],
   fromLanguage: DEFAULT_FROM_LANGUAGE,
   toLanguage: DEFAULT_TO_LANGUAGE,
+  useIndividualLanguage: false
 }
 
 interface FormProps {
@@ -43,6 +45,8 @@ const Form = ({ addWords }: FormProps) => {
       ...formData,
       words: [ ...formData.words, { value: newWord.toLocaleLowerCase(), fromLanguage: formData.fromLanguage, toLanguage: formData.toLanguage} ]
     });
+
+    setCurrWord('');
   };
 
   const removeWord = (wordToRemove: string) => {
@@ -68,7 +72,9 @@ const Form = ({ addWords }: FormProps) => {
 
   const handleSubmit = (formData: FormData) => {
     Promise.all(formData.words.map(word => {
-      return WiktionaryService.translate(word.value.toLocaleLowerCase(), word.fromLanguage, word.toLanguage)
+      const toLang = formData.useIndividualLanguage && word.toLanguage ? word.toLanguage : formData.toLanguage;
+
+      return WiktionaryService.translate(word.value.toLocaleLowerCase(), word.fromLanguage, toLang)
         .then(words => {
           return words
         }).catch(error => {
@@ -83,6 +89,13 @@ const Form = ({ addWords }: FormProps) => {
 
   const handleError = (newError: Error) => {
     updateErrors([newError.message, ...errors].filter((_, index) => index < MAX_ERRORS));
+  }
+
+  const toggleIndividualLanguage = (currState: boolean) => {
+    updateFormData({
+      ...formData,
+      useIndividualLanguage: !currState
+    });
   }
 
   return (
@@ -105,10 +118,17 @@ const Form = ({ addWords }: FormProps) => {
         </select>
       </div>
 
+      <div className={`${CLASS}__options`}>
+        <input type="checkbox" className={`${CLASS}__toggle`}
+          checked={formData.useIndividualLanguage}
+          onChange={() => toggleIndividualLanguage(formData.useIndividualLanguage)}></input>
+        <p>translate individually</p>
+      </div>
+
       {formData.words.map(word => (
         <div className={`${CLASS}__word`} key={`${word.value}_${word.fromLanguage}_${word.toLanguage}`}>
           <p>{word.value}</p>
-      <p className={`${CLASS}__language`}>{`${word.fromLanguage} · ${word.toLanguage}`}</p>
+          <p className={`${CLASS}__language`}>{word.fromLanguage + (formData.useIndividualLanguage ? ` · ${word.toLanguage || formData.toLanguage}` : '')}</p>
           <button className={`${CLASS}__button ${CLASS}__button--icon`}
             type='button'
             onClick={e => removeWord(word.value)}>✕</button>
@@ -117,7 +137,9 @@ const Form = ({ addWords }: FormProps) => {
 
       {!!(formData.words.length < MAX_WORDS) &&
         <div className={`${CLASS}__addition`}>
-          <input className={`${CLASS}__input`} placeholder='' onChange={e => setCurrWord(e.target.value as string)}></input>
+          <input className={`${CLASS}__input`}
+            onChange={e => setCurrWord(e.target.value as string)}
+            value={currWord}></input>
           <p className={`${CLASS}__language ${CLASS}__language--label`}>{formData.fromLanguage}</p>
           <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
             type='button'
