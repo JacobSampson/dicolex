@@ -82,7 +82,6 @@ const Form = ({ addWords }: FormProps) => {
         .then(words => {
           return words
         }).catch(error => {
-          console.log("DSFSDF")
           handleError(error);
           return [];
         }) as any as any[];
