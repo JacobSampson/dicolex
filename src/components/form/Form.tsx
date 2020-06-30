@@ -37,7 +37,9 @@ const Form = ({ addWords }: FormProps) => {
     if (formData.words.length >= MAX_WORDS
         || !newWord.length
         || formData.words.some(word => {
-          return word.value === newWord.toLocaleLowerCase() && word.fromLanguage === formData.fromLanguage && word.toLanguage === formData.toLanguage})) {
+          return word.value === newWord.toLocaleLowerCase() &&
+                 word.fromLanguage === formData.fromLanguage &&
+                 (!formData.useIndividualLanguage || word.toLanguage === formData.toLanguage)})) {
       return false;
     }
 
@@ -94,8 +96,21 @@ const Form = ({ addWords }: FormProps) => {
   }
 
   const toggleIndividualLanguage = (currState: boolean) => {
+    let uniqueWords = formData.words;
+    if (currState) {
+      const seenWords: { value: string, fromLanguage: string, toLanguage: string }[] = [];
+      uniqueWords = uniqueWords.filter(word => {
+        if (seenWords.some(seenWord => seenWord.value === word.value && seenWord.value === word.value)) {
+          return false;
+        }
+        seenWords.push(word);
+        return true;
+      });
+    }
+
     updateFormData({
       ...formData,
+      words: uniqueWords,
       useIndividualLanguage: !currState
     });
   }
@@ -142,7 +157,9 @@ const Form = ({ addWords }: FormProps) => {
           <input className={`${CLASS}__input`}
             onChange={e => setCurrWord(e.target.value as string)}
             value={currWord}></input>
-          <p className={`${CLASS}__language ${CLASS}__language--label`}>{formData.fromLanguage}</p>
+          <p className={`${CLASS}__language ${CLASS}__language--label`}>
+            {`${formData.fromLanguage} · ${formData.toLanguage}`}
+            </p>
           <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
             type='button'
             onClick={e => addWord(currWord)}>+</button>
