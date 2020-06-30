@@ -56,7 +56,7 @@ const Form = ({ addWords }: FormProps) => {
       ...formData,
       words: formData.words.filter(word => !(word.value === wordToRemove.value &&
                                    word.fromLanguage === wordToRemove.fromLanguage &&
-                                   (formData.useIndividualLanguage && (word.toLanguage === wordToRemove.toLanguage))))
+                                   (!formData.useIndividualLanguage || (word.toLanguage === wordToRemove.toLanguage))))
     });
   };
 
