@@ -49,10 +49,12 @@ const Form = ({ addWords }: FormProps) => {
     setCurrWord('');
   };
 
-  const removeWord = (wordToRemove: string) => {
+  const removeWord = (wordToRemove: { value: string, fromLanguage: string, toLanguage: string }) => {
     updateFormData({
       ...formData,
-      words: formData.words.filter(word => word.value !== wordToRemove)
+      words: formData.words.filter(word => !(word.value === wordToRemove.value &&
+                                   word.fromLanguage === wordToRemove.fromLanguage &&
+                                   (formData.useIndividualLanguage && (word.toLanguage === wordToRemove.toLanguage))))
     });
   };
 
@@ -131,7 +133,7 @@ const Form = ({ addWords }: FormProps) => {
           <p className={`${CLASS}__language`}>{word.fromLanguage + (formData.useIndividualLanguage ? ` · ${word.toLanguage || formData.toLanguage}` : '')}</p>
           <button className={`${CLASS}__button ${CLASS}__button--icon`}
             type='button'
-            onClick={e => removeWord(word.value)}>✕</button>
+            onClick={e => removeWord(word)}>✕</button>
         </div>
       ))}
 
