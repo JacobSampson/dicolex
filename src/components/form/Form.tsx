@@ -9,6 +9,7 @@ interface FormData {
   fromLanguage: string;
   toLanguage: string;
   useIndividualLanguage: boolean;
+  useMultipleLanguages: boolean;
 }
 
 const MAX_WORDS = 5;
@@ -20,7 +21,8 @@ const DEFAULT_FORM_DATA: FormData = {
   words: [],
   fromLanguage: DEFAULT_FROM_LANGUAGE,
   toLanguage: DEFAULT_TO_LANGUAGE,
-  useIndividualLanguage: false
+  useIndividualLanguage: false,
+  useMultipleLanguages: true
 }
 
 interface FormProps {
@@ -48,7 +50,7 @@ const Form = ({ addWords }: FormProps) => {
       words: [ ...formData.words, { value: newWord.toLocaleLowerCase(), fromLanguage: formData.fromLanguage, toLanguage: formData.toLanguage} ]
     });
 
-    setCurrWord('');
+    // setCurrWord(''); // Uncomment to auto clear input
   };
 
   const removeWord = (wordToRemove: { value: string, fromLanguage: string, toLanguage: string }) => {
@@ -75,17 +77,38 @@ const Form = ({ addWords }: FormProps) => {
   };
 
   const handleSubmit = (formData: FormData) => {
-    Promise.all(formData.words.map(word => {
-      const toLang = formData.useIndividualLanguage && word.toLanguage ? word.toLanguage : formData.toLanguage;
+    let languageMappings: { value: string, fromLanguage: string, toLanguage?: string }[] = [];
 
-      return WiktionaryService.translate(word.value.toLocaleLowerCase(), word.fromLanguage, toLang)
-        .then(words => {
-          return words
-        }).catch(error => {
-          handleError(error);
-          return [];
-        }) as any as any[];
-    }))
+    if (formData.useMultipleLanguages) {
+      LANGUAGE_CODES.forEach(([code, _]) => {
+        formData.words.forEach(word => {
+          const languageMapping = {
+            ...word,
+            toLanguage: code
+          };
+          languageMappings.push(languageMapping);
+        });
+      });
+    } else {
+      languageMappings = formData.words.map(word => {
+        const toLang = formData.useIndividualLanguage && word.toLanguage ? word.toLanguage : formData.toLanguage;
+        return { ...word, toLanguage: toLang };
+      });
+    }
+
+    console.log(languageMappings)
+
+    const languagesCalls = languageMappings.map((word: ({ value: string, fromLanguage: string, toLanguage?: string })) => {
+      return WiktionaryService.translate(word.value.toLocaleLowerCase(), word.fromLanguage, word.toLanguage)
+      .then(words => {
+        return words
+      }).catch(error => {
+        handleError(error);
+        return [];
+      }) as any as any[];
+    });
+
+    Promise.all(languagesCalls)
       .then(words => words.reduce((compiledWords, words) => [...compiledWords, ...words], []))
       .then(compiledWords => addWords(compiledWords));
   }
@@ -94,9 +117,9 @@ const Form = ({ addWords }: FormProps) => {
     updateErrors([newError.message, ...errors].filter((_, index) => index < MAX_ERRORS));
   }
 
-  const toggleIndividualLanguage = (currState: boolean) => {
+  const updatedLanguagesOptions = (useIndividual: boolean, useMultiple: boolean) => {
     let uniqueWords = formData.words;
-    if (currState) {
+    if (useIndividual || useMultiple) {
       const seenWords: { value: string, fromLanguage: string, toLanguage: string }[] = [];
       uniqueWords = uniqueWords.filter(word => {
         if (seenWords.some(seenWord => seenWord.value === word.value && seenWord.value === word.value)) {
@@ -110,7 +133,8 @@ const Form = ({ addWords }: FormProps) => {
     updateFormData({
       ...formData,
       words: uniqueWords,
-      useIndividualLanguage: !currState
+      useIndividualLanguage: useIndividual,
+      useMultipleLanguages: useMultiple
     });
   }
 
@@ -120,14 +144,16 @@ const Form = ({ addWords }: FormProps) => {
         any entered words will have their translations combined to form unique project names with actual meanings
       </div>
 
-      <div className={`${CLASS}__selects`}>
-        <select className={`${CLASS}__select ${CLASS}__select--from`} value={formData.fromLanguage} onChange={e => setFromLanguage(e.target.value)}>
+      <div className={`${CLASS}__selects` + (formData.useMultipleLanguages ? ` ${CLASS}__selects--disabled` : '')}>
+        <select className={`${CLASS}__select ${CLASS}__select--from`}
+          value={formData.fromLanguage} onChange={e => setFromLanguage(e.target.value)}>
           {LANGUAGE_CODES.map(([ code, label ]) => {
             return <option className={`${CLASS}__option`} key={code} value={code}>{label.toLocaleLowerCase()}</option>
           })}
         </select>
         <p className={`${CLASS}__arrow`}>→</p>
-        <select className={`${CLASS}__select ${CLASS}__select--to`} value={formData.toLanguage} onChange={e => setToLanguage(e.target.value)}>
+        <select className={`${CLASS}__select ${CLASS}__select--to`}
+          value={formData.toLanguage} onChange={e => setToLanguage(e.target.value)}>
           {LANGUAGE_CODES.map(([ code, label ]) => {
             return <option className={`${CLASS}__option`} key={code} value={code}>{label.toLocaleLowerCase()}</option>
           })}
@@ -137,8 +163,13 @@ const Form = ({ addWords }: FormProps) => {
       <div className={`${CLASS}__options`}>
         <input type="checkbox" className={`${CLASS}__toggle`}
           checked={formData.useIndividualLanguage}
-          onChange={() => toggleIndividualLanguage(formData.useIndividualLanguage)}></input>
+          onChange={() => updatedLanguagesOptions(!formData.useIndividualLanguage, false)}></input>
         <p>translate individually</p>
+
+        <input type="checkbox" className={`${CLASS}__toggle`}
+          checked={formData.useMultipleLanguages}
+          onChange={() => updatedLanguagesOptions(false, !formData.useMultipleLanguages)}></input>
+        <p>use selected translation set</p>
       </div>
 
       {formData.words.map(word => (
@@ -157,7 +188,7 @@ const Form = ({ addWords }: FormProps) => {
             onChange={e => setCurrWord(e.target.value as string)}
             value={currWord}></input>
           <p className={`${CLASS}__language ${CLASS}__language--label`}>
-            {`${formData.fromLanguage} · ${formData.toLanguage}`}
+            {`${formData.fromLanguage}${formData.useMultipleLanguages ? '' : ' · ' + formData.toLanguage}`}
             </p>
           <button className={`${CLASS}__button ${CLASS}__button--plus` + (formData.words.length >= MAX_WORDS ? ` ${CLASS}__button--disabled` : '')}
             type='button'

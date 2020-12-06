@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "dicolex",
+  "name": "dicolex",
+  "crossorigin": "use-credentials",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,14 +9,29 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "resources/icons/dicolex.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "283x279"
     },
     {
-      "src": "logo512.png",
+      "src": "resources/icons/firebase.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "62x62"
+    },
+    {
+      "src": "resources/icons/github.png",
+      "type": "image/png",
+      "sizes": "136x136"
+    },
+    {
+      "src": "resources/icons/react.png",
+      "type": "image/png",
+      "sizes": "62x62"
+    },
+    {
+      "src": "resources/icons/scss.png",
+      "type": "image/png",
+      "sizes": "62x62"
     }
   ],
   "start_url": ".",

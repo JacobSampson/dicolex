@@ -35,9 +35,17 @@
   &__combo {
     padding: 1em;
     margin-left: 1em;
-    flex-basis: 30%;
+    flex-basis: 15%;
 
-    border-right: 2px solid var(--col-dark--tertiary);
+    &--light {
+      padding-left: 0em;
+      padding-right: 2em;
+      margin-left: 0em;
+
+      border-right: 2px solid var(--col-dark--tertiary);
+      text-align: left;
+      opacity: 0.5;
+    }
   }
   
   &__language {
@@ -125,6 +133,11 @@
     border-radius: 0.25em;
     border: none;
     background-color: var(--col-dark--primary);
+
+    &--light {
+      position: absolute;
+      right: 0;
+    }
   }
 
   &__language {
@@ -133,5 +146,7 @@
 
   &__original {
     grid-area: orig;
+    text-align: right;
+    padding-right: 5em;
   }
 }}

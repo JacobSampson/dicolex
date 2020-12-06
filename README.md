@@ -12,6 +12,8 @@ Generate project names on the fly
 
 Input words in any language and choose a language to translate to. The entered words will have their translations combined to create unique project names with actual meanings.
 
+An existing set can be used to translate across multiple languages at once
+
 -----
 
 **Examples**

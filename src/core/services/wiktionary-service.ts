@@ -24,7 +24,8 @@ class WiktionaryService {
     const words = pages[Object.keys(pages)[0]].iwlinks;
 
     if (!words || !words.length) {
-      throw new Error(`No results found for ${word}`);
+      // throw new Error(`No results found for ${word} in \'${toLanguage}\'`);
+      throw new Error(`No results found for some translations`);
     }
 
     return words.map((translatedWord: { '*': string, prefix: string }) => {

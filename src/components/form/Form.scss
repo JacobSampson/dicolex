@@ -43,6 +43,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    &--disabled {
+      user-select: none;
+      cursor: default;
+      touch-action: none;
+      pointer-events: none;
+
+      filter: brightness(50%);
+    }
   }
 
   &__select {
@@ -67,8 +76,8 @@
   }
 
   &__options {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 2em 1fr;
     align-items: center;
     width: 100%;
     margin-bottom: 2em;
@@ -164,6 +173,7 @@
     &--disabled {
       user-select: none;
       cursor: default;
+      pointer-events: none;
 
       filter: brightness(50%);
     }
